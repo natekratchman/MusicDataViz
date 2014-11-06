@@ -23,6 +23,10 @@ class User < ActiveRecord::Base
     "It worked!"
   end
 
+  def test
+    "WHOA"
+  end
+  
   def hello
     puts "Hey there!"
   end
