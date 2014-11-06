@@ -10,10 +10,8 @@ class Artist < ActiveRecord::Base
 
   has_many :tracks
 
-  def add_related_artists(artist_array)
-    artist_array.each do |artist|      
-      self.related_artists << artist
-    end
+  def self.add_to_db
+    self.update(name: , count:, origin_artist_id: )
   end
 
 end
