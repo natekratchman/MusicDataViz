@@ -56,8 +56,7 @@ ActiveRecord::Schema.define(version: 20141104214434) do
   end
 
   create_table "playlists", force: true do |t|
-    t.string   "playlist_num"
-    t.string   "name"
+    t.string   "spotify_playlist_id"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -71,8 +70,8 @@ ActiveRecord::Schema.define(version: 20141104214434) do
   end
 
   create_table "users", force: true do |t|
+    t.string   "spotify_user_id"
     t.string   "name"
-    t.string   "spotify_num"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
