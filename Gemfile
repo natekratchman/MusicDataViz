@@ -38,5 +38,6 @@ gem 'spring',        group: :development
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
+gem 'dotenv-rails'
 gem 'rspotify'
 gem 'omniauth-spotify'
