@@ -94,11 +94,7 @@ GEM
     rake (10.3.2)
     rdoc (4.1.2)
       json (~> 1.4)
-<<<<<<< HEAD
-    rest_client (1.7.3)
-=======
     rest_client (1.8.1)
->>>>>>> Add user methods, new migrations
       netrc (~> 0.7.7)
     rspotify (1.5.1)
       omniauth-oauth2 (~> 1.1)
