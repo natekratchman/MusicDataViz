@@ -23,4 +23,6 @@ class UsersController < ApplicationController
 
     # # Check doc for more
   end
+
+  
 end

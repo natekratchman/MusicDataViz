@@ -15,57 +15,54 @@ class User < ActiveRecord::Base
 
   def initialize(spotify_user_id)
     @spotify_user_id = spotify_user_id
-    # User.create(spotify_user_id: spotify_user_id) if User.find_by(spotify_user_id: spotify_user_id).nil?
+    @spotify_user_info = RSpotify::User.find("#{@spotify_user_id}")
   end
 
-  def spotify
-    "It worked!"
+  def create_user
+    if User.find_by(spotify_user_id: @spotify_user_id).nil?
+      @user = User.create(spotify_user_id: @spotify_user_id, name: "#{@spotify_user_info.diplay_name}")
+    end
   end
 
-  def get_user_info
-    @user = RSpotify::User.find("#{@spotify_user_id}")
-    @name = @user.diplay_name
-  end
-
-  def user_playlist_ids
-    @all_playlist_ids = @user.playlists.collect {|playlist| playlist.id}
+  def create_playlists
+    @spotify_playlist_ids = @spotify_user_info.playlists.collect {|playlist| playlist.id}
+    
+    @spotify_playlist_ids.each do |spotify_playlist_id|
+      if Playlist.find_by(spotify_playlist_id: spotify_playlist_id).nil?
+        Playlist.create(spotify_playlist_id: spotify_playlist_id, user_id: @user.id) 
+    end
   end
 
   def get_full_playlists
-    @full_playlists = @all_playlist_ids.collect {|spotify_playlist_id| RSpotify::Playlist.find("#{@spotify_user_id}", "#{spotify_playlist_id}")}
+    @full_playlists = @spotify_playlist_ids.collect {|spotify_playlist_id| RSpotify::Playlist.find("#{@spotify_user_id}", "#{spotify_playlist_id}")}
   end
 
-  def get_artists_in_playlists
-    @artist_names = []
+  def create_artists
+    # @artist_info = {}
     @full_playlists.each do |playlist|
       playlist.tracks.each do |track|
         track.artists.each do |artist|
-          @artist_names << artist.name
+          if Artist.find_by(name: artist.name).nil?
+            Artist.create(name: artist.name, count: 1)
+          else
+            @artist = Artist.find_by(name: artist.name)
+            @new_count = @artist.count + 1
+            @artist.update(count: @new_count)
+          end
         end
       end
     end
   end
 
-  def count_artists
-    @artist_names.each_with_object(Hash.new(0)) {|name, h| h[name] += 1}
-  end
 
-# Database methods
+  # def count_artists
+  #   @artist_names.each_with_object(Hash.new(0)) {|name, h| h[name] += 1}
+  # end
 
-  def self.add_to_db
-    self.update(name: @name, spotify_user_id: @spotify_user_id)
-  end
-
-  def create_artist
-    @artist_names.uniq.each do |artist|
-      Artist.create(name: artist.name)
-    end
-  end
-
-  def create_playlist
-    @all_playlist_ids.each do |spotify_playlist_id|
-      Playlist.create(spotify_playlist_id: spotify_playlist_id)
-    end
-  end
+  # def add_related_artists(artist_array)
+  #   artist_array.each do |artist|
+  #     self.related_artists << artist
+  #   end
+  # end
 
 end
