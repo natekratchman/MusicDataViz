@@ -64,4 +64,24 @@ class User < ActiveRecord::Base
   #   end
   # end
 
+  def self.login_from_omniauth(auth_hash)
+    find_from_omniauth(auth_hash) || create_from_omniauth(auth_hash)    
+  end
+
+  def self.find_from_omniauth(auth_hash)
+    find_by(:uid => auth_hash.uid, :name => auth_hash.info.name)
+  end
+
+  def self.create_from_omniauth(auth_hash)    
+    create(:spotify_user_id => auth_hash.uid,
+           :name => auth_hash.info.name)
+  end
+
+  #  WITH PASSWORD -- NEED TO ADD COLUMN TO USERS TABLE
+  # def self.create_from_omniauth(auth_hash)    
+  #   create(:spotify_user_id => auth_hash.uid,
+  #          :name => auth_hash.info.name, 
+  #          :password => SecureRandom.hex(10))
+  # end
+
 end
