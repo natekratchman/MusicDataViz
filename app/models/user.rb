@@ -12,7 +12,6 @@ class User < ActiveRecord::Base
   has_many :playlist_genres, through: :playlists
   has_many :genres, through: :playlist_tracks
 
-  after_create :hello
 
   def initialize(spotify_user_id)
     @spotify_user_id = spotify_user_id
@@ -21,10 +20,6 @@ class User < ActiveRecord::Base
 
   def spotify
     "It worked!"
-  end
-
-  def hello
-    puts "Hey there!"
   end
 
   def get_user_info
@@ -74,13 +69,3 @@ class User < ActiveRecord::Base
   end
 
 end
-
-# require 'rspotify'
-# RSpotify.authenticate("ce33f36675d04c8eb33a81ce4967a501", "01ba7ef1a474410dba5d939f95b5681a")
-# @user = RSpotify::User.find("1219093601")
-
-
-
-
-
->>>>>>> Add user methods, new migrations
