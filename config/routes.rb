@@ -9,23 +9,17 @@ Rails.application.routes.draw do
   # user          GET   /users/:id                   users#show
 
 
-  root 'sessions#new'
-  # Prefix        Verb  URI    Controller#Action
-  # root          GET   /      sessions#new
-
 
   get '/login' => 'sessions#new'
-  post '/sessions' => 'sessions#create'
+  get '/auth/spotify/callback', to: 'sessions#create'
+  # post '/login' => 'sessions#create'
   get '/logout' => 'sessions#destroy'
-
-  # Prefix                  Verb  URI                               Controller#Action
-  # login                   GET  /login(.:format)                   sessions#new
-  # sessions                POST /sessions(.:format)                sessions#create
-  # logout                  GET  /logout(.:format)                  sessions#destroy
-  # auth_spotify_callback   GET  /auth/spotify/callback(.:format)   users#spotify
-
   
-  get '/auth/spotify/callback', to: 'users#spotify'
-  # data that Spotify returns to us
+  root 'users#show'
+  
+  # get '/auth/spotify/callback', to: 'users#spotify'
 
+  # data that Spotify returns to us
+  # 'code' and 'state' in params
+  # http://localhost:3000/auth/spotify/callback?code=AQCK2bF5lh2TEcAXmstEh5OBQNECsVhAzWdYhMiWRgZwEQD5yRUfhT7v10J7TvPOh-xSnoS7PAgm_49Vq_iRKDFiaDNQKVhSTEmAKa3ex07RV3WP98q3QSqWCxrWxWrec8bv4wYFNQv31HOGKe-YBlXW357ZTsHs46AsJ01BoQwOpJByaB4puzoUNC36WCqAlRwq7_UDmpHy1GOIHazJPafZfYAiQ-9l9CQC971BMsR_SDfxjIAkv4XtT_92ND8Qe2B-Lm6FntO7ni3VigT49Y88Cz3BRWmF5GKCtr50vSW010kR_bcosLw&state=76001723519d8096510e8398945090d8f32228d5b67ec99f
 end

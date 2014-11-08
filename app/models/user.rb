@@ -18,10 +18,6 @@ class User < ActiveRecord::Base
     # User.create(spotify_user_id: spotify_user_id) if User.find_by(spotify_user_id: spotify_user_id).nil?
   end
 
-  def spotify
-    "It worked!"
-  end
-
   def get_user_info
     @user = RSpotify::User.find("#{@spotify_user_id}")
     @name = @user.diplay_name
