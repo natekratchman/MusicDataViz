@@ -40,4 +40,5 @@ gem 'spring',        group: :development
 
 gem 'dotenv-rails'
 gem 'rspotify'
+# gem 'omniauth'
 gem 'omniauth-spotify'
