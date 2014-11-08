@@ -29,7 +29,8 @@ class User < ActiveRecord::Base
     
     @spotify_playlist_ids.each do |spotify_playlist_id|
       if Playlist.find_by(spotify_playlist_id: spotify_playlist_id).nil?
-        Playlist.create(spotify_playlist_id: spotify_playlist_id, user_id: @user.id) 
+        Playlist.create(spotify_playlist_id: spotify_playlist_id, user_id: @user.id)
+      end 
     end
   end
 
