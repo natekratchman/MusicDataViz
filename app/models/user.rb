@@ -22,6 +22,7 @@ class User < ActiveRecord::Base
   def create_playlists
     ## MAKE THIS VARIABLE
     user_id = 1219093601
+    # user_id = User.find_by(id: self.id).spotify_user_id
     ###
 
     ## DELETE THIS
@@ -80,17 +81,28 @@ class User < ActiveRecord::Base
     end
   end
 
+
+  def self.login_from_omniauth(auth_hash)
+    find_from_omniauth(auth_hash) || create_from_omniauth(auth_hash)    
+  end
+
+  def self.find_from_omniauth(auth_hash)
+    find_by(:uid => auth_hash.uid, :name => auth_hash.info.name)
+  end
+
+  def self.create_from_omniauth(auth_hash)    
+    create(:spotify_user_id => auth_hash.uid,
+           :name => auth_hash.info.name)
+  end
+
+  #  WITH PASSWORD -- NEED TO ADD COLUMN TO USERS TABLE
+  # def self.create_from_omniauth(auth_hash)    
+  #   create(:spotify_user_id => auth_hash.uid,
+  #          :name => auth_hash.info.name, 
+  #          :password => SecureRandom.hex(10))
+  # end
+
 end
-
-  # def count_artists
-  #   @artist_names.each_with_object(Hash.new(0)) {|name, h| h[name] += 1}
-  # end
-
-  # def add_related_artists(artist_array)
-  #   artist_array.each do |artist|
-  #     self.related_artists << artist
-  #   end
-  # end
 
 
 # user = RSpotify::User.find("1219093601")

@@ -41,5 +41,4 @@ gem 'pry'
 
 gem 'dotenv-rails'
 gem 'rspotify'
-# gem 'omniauth'
 gem 'omniauth-spotify'
