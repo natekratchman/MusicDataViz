@@ -1,6 +1,14 @@
 class UsersController < ApplicationController
   def spotify
-    @spotify_user = RSpotify::User.new(request.env['omniauth.auth'])
+    # @spotify_user = RSpotify::User.new(request.env['omniauth.auth'])
+    # @spotify_user_id = spotify_user_id
+    @spotify_user_info = RSpotify::User.find("#{@spotify_user_id}")
+
+    if User.find_by(spotify_user_id: @spotify_user_id).nil?
+      @user = User.create(spotify_user_id: @spotify_user_id, name: "#{@spotify_user_info.diplay_name}")
+    end
+    @user.call
+
     render :show
   end
 

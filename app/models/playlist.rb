@@ -10,7 +10,4 @@ class Playlist < ActiveRecord::Base
   has_many :playlist_genres
   has_many :genres, through: :playlist_genres
 
-  def add_artist(artist)
-    PlaylistArtist.create(playlist_id: self.id, artist_id: artist.id)
-  end
 end 

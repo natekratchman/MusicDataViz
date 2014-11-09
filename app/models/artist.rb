@@ -10,8 +10,4 @@ class Artist < ActiveRecord::Base
 
   has_many :tracks
 
-  def self.add_to_db
-    self.update(name: , count:, origin_artist_id: )
-  end
-
 end
