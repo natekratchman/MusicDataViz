@@ -1,8 +1,11 @@
+<%= link_to "Logout", logout_path %>
 <h1>This is where all the magic happens.</h1>
 
-<p>Spotify User id: <%= @spotify_user_id %></p>
+<p>Spotify User id: <%= @user.spotify_user_id %></p>
+<p>Spotify Display Name: <%= @user.name %></p>
 
-<p>DB User id: <%= session[:user_id] %></p>
+<p>Session id: <%= session[:user_id] %></p>
+<p>DB User id: <%= @user.id %></p>
 
 <%= notice %>
 

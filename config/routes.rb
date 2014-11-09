@@ -11,12 +11,8 @@ Rails.application.routes.draw do
 
 
   get '/login' => 'sessions#new'
-  get '/auth/spotify/callback', to: 'users#show'
-  # get '/auth/spotify/callback', to: 'sessions#create'
-  # post '/login' => 'sessions#create'
+  get '/auth/spotify/callback' => 'sessions#create'
   get '/logout' => 'sessions#destroy'
   
   root 'users#show'
-  
-  # get '/auth/spotify/callback', to: 'users#spotify'
 end
