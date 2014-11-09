@@ -7,6 +7,7 @@ class SessionsController < ApplicationController
   def create   
     user = User.login_from_omniauth(request.env['omniauth.auth'])
     login(user)
+    flash[:notice] = "it worked"
     redirect_to root_path
   end
 
