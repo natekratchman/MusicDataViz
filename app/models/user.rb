@@ -32,14 +32,15 @@ class User < ActiveRecord::Base
   end
 
   def self.create_playlists(user_id)
-
     ## DELETE THIS
     RSpotify.authenticate("ce33f36675d04c8eb33a81ce4967a501", "01ba7ef1a474410dba5d939f95b5681a")
     spotify_user_info = RSpotify::User.find(user_id)
     ###
 
-    spotify_playlist_ids = spotify_user_info.playlists.collect{|playlist| playlist.id}
-    spotify_playlist_ids.compact!
+    spotify_playlist_ids = spotify_user_info.playlists.collect {|playlist| playlist.id}.compact!
+    # if this doesn't work, use:
+    ## spotify_playlist_ids = spotify_user_info.playlists.collect {|playlist| playlist.id}
+    ## spotify_playlist_ids.compact!
 
     spotify_playlist_ids.each do |spotify_playlist_id|
       if Playlist.find_by(spotify_playlist_id: spotify_playlist_id).nil?
@@ -51,7 +52,6 @@ class User < ActiveRecord::Base
     end
   end
 
-  #change first param to "#{@spotify_user_id}"
   def self.create_artists(spotify_playlist_ids, db_playlist, user_id)
     spotify_playlist_ids.each do |spotify_playlist_id|
       playlist = RSpotify::Playlist.find(user_id, "#{spotify_playlist_id}") 
@@ -71,21 +71,20 @@ class User < ActiveRecord::Base
     end
   end
 
-  #change first param to "#{@spotify_user_id}"
-  def create_genres(artist_id, db_playlist_id)
-    artist = RSpotify::Artist.find("#{artist_id}")
-
-    artist.genres.each do |genre|
-      if Genre.find_by(name: genre).nil?
-        @genre = Genre.create(name: genre, count: 1)
-        PlaylistGenre.create(playlist_id: db_playlist_id, genre_id: @genre.id)
-       else
-         @genre = Genre.find_by(name: genre)
-         new_count = @genre.count + 1
-         @genre.update(count: new_count)
-      end
-    end
-  end
+  # GENRES!
+  # def create_genres(artist_id, db_playlist_id)
+  #   artist = RSpotify::Artist.find("#{artist_id}")
+  #   artist.genres.each do |genre|
+  #     if Genre.find_by(name: genre).nil?
+  #       @genre = Genre.create(name: genre, count: 1)
+  #       PlaylistGenre.create(playlist_id: db_playlist_id, genre_id: @genre.id)
+  #      else
+  #        @genre = Genre.find_by(name: genre)
+  #        new_count = @genre.count + 1
+  #        @genre.update(count: new_count)
+  #     end
+  #   end
+  # end
 
 
   def self.login_from_omniauth(auth_hash)
@@ -110,9 +109,8 @@ class User < ActiveRecord::Base
 
 end
 
-
-# user = RSpotify::User.find("1219093601")
-# RSpotify.authenticate("ce33f36675d04c8eb33a81ce4967a501", "01ba7ef1a474410dba5d939f95b5681a")
-# @spotify_playlist_ids = user.playlists.collect {|playlist| playlist.id}
-
-# @playlist = RSpotify::Playlist.find("1219093601", "3IdE2oeayCdU4TFAwEbZhv") 
+# DELETE THIS AT SOME POINT
+  # user = RSpotify::User.find("1219093601")
+  # RSpotify.authenticate("ce33f36675d04c8eb33a81ce4967a501", "01ba7ef1a474410dba5d939f95b5681a")
+  # @spotify_playlist_ids = user.playlists.collect {|playlist| playlist.id}
+  # @playlist = RSpotify::Playlist.find("1219093601", "3IdE2oeayCdU4TFAwEbZhv") 
