@@ -5,6 +5,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(session[:user_id])
+    @user.call(@user.spotify_user_id)
   end
 
   def new
@@ -12,7 +13,6 @@ class UsersController < ApplicationController
   end
 
   def create
-    # session[:user_id] = @user.id
   end
 
 end
