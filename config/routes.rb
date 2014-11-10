@@ -8,8 +8,6 @@ Rails.application.routes.draw do
   # user_group    GET   /users/:user_id/groups/:id   groups#show
   # user          GET   /users/:id                   users#show
 
-
-
   get '/login' => 'sessions#new'
   get '/auth/spotify/callback' => 'sessions#create'
   get '/logout' => 'sessions#destroy'

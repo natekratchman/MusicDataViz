@@ -1,13 +1,11 @@
+<%= stylesheet_link_tag "application", media: "all" %>
+<%= javascript_include_tag "application" %>
+<%= render "layouts/style" %>
+
 <%= link_to "Logout", logout_path %>
-<h1>This is where all the magic happens.</h1>
 
-<p>Spotify User id: <%= @user.spotify_user_id %></p>
-<p>Spotify Display Name: <%= @user.name %></p>
+<h1 class="section-title big-text scrollimation fade-up in"><%= @user.name %>'s Music Profile</h1>
 
-<p>Session id: <%= session[:user_id] %></p>
-<p>DB User id: <%= @user.id %></p>
-
-<%= notice %>
-
-
-
+<% Artist.order("count DESC").limit(25).each do |artist| %>
+  <div class="circle" style="height:<%= artist.size %>px; width:<%= artist.size %>px;"><p class="circle-p"><%= artist.name %></p></div>
+<% end %>

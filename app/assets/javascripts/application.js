@@ -14,3 +14,10 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+//= require contact
+//= require jquery.backstretch
+//= require jquery.flexslider
+//= require jquery.masonry
+//= require jquery.scrollto
+//= require scripts
+//= require waypoints
