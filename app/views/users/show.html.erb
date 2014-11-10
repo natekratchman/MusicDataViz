@@ -4,8 +4,8 @@
 
 <%= link_to "Logout", logout_path %>
 
-<h1 class="section-title big-text scrollimation fade-up in"><%= @user.name %>'s Music Profile</h1>
+<h1 class="big-text"><%= @user.name.split.first %>'s Music Profile</h1>
 
-<% Artist.order("count DESC").limit(25).each do |artist| %>
+<% Artist.order("count DESC").limit(50).each do |artist| %>
   <div class="circle" style="height:<%= artist.size %>px; width:<%= artist.size %>px;"><p class="circle-p"><%= artist.name %></p></div>
 <% end %>

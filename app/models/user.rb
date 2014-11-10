@@ -15,9 +15,9 @@ class User < ActiveRecord::Base
 
 
   def call(spotify_user_id)
-    Artist.destroy_all
-    Playlist.destroy_all
-    PlaylistArtist.destroy_all
+    # Artist.destroy_all
+    # Playlist.destroy_all
+    # PlaylistArtist.destroy_all
 
     # create_playlists(spotify_user_id)
     update_with_popularity_attributes
@@ -67,7 +67,7 @@ class User < ActiveRecord::Base
   end
 
   def update_with_popularity_attributes
-    Artist.order("count DESC").limit(25).each do |artist|
+    Artist.order("count DESC").limit(50).each do |artist|
       artist_popularity = RSpotify::Artist.search("#{artist.name}").first.popularity
       artist_size = artist_popularity * 6
       artist.update(spotify_popularity: artist_popularity, size: artist_size)

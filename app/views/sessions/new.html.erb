@@ -1,5 +1,9 @@
+<%= stylesheet_link_tag "application", media: "all" %>
+<%= javascript_include_tag "application" %>
+<%= render "layouts/style" %>
 <%= notice %>
 
-<h1>Log In</h1>
+<div class="center"><h1 class="big-text" style="font-size: 30px;">See how your music stacks up against the Spotify community.</h1>
 
-<%= link_to 'Sign in with Spotify', '/auth/spotify' %>
+<p class="link"><%= link_to 'Sign in with Spotify to analyze your music profile', '/auth/spotify' %><p>
+</div>
