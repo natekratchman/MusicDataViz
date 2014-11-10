@@ -23,33 +23,30 @@ class User < ActiveRecord::Base
     update_with_popularity_attributes
   end
 
-  def create_playlists(spotify_user_id)
+  def self.create_playlists(user_id)
     ## DELETE THIS
     RSpotify.authenticate("ce33f36675d04c8eb33a81ce4967a501", "01ba7ef1a474410dba5d939f95b5681a")
+    spotify_user_info = RSpotify::User.find(user_id)
     ###
-    spotify_user_info = RSpotify::User.find(spotify_user_id)
 
-    # spotify_playlist_ids = spotify_user_info.playlists.collect {|playlist| playlist.id}.compact!
+    spotify_playlist_ids = spotify_user_info.playlists.collect {|playlist| playlist.id}.compact!
     # if this doesn't work, use:
-    spotify_playlist_ids = spotify_user_info.playlists.collect {|playlist| playlist.id}
-    spotify_playlist_ids.compact!
+    ## spotify_playlist_ids = spotify_user_info.playlists.collect {|playlist| playlist.id}
+    ## spotify_playlist_ids.compact!
 
     spotify_playlist_ids.each do |spotify_playlist_id|
       if Playlist.find_by(spotify_playlist_id: spotify_playlist_id).nil?
-        ###
-        db_user_id = User.find_by(spotify_user_id: spotify_user_id).id
-        ###
-        @db_playlist = Playlist.create(spotify_playlist_id: spotify_playlist_id, user_id: db_user_id)
+        @db_playlist = Playlist.create(spotify_playlist_id: spotify_playlist_id, user_id: User.last.id)
       else
         @db_playlist = Playlist.find_by(spotify_playlist_id: spotify_playlist_id)
       end
-      create_artists(spotify_playlist_ids, @db_playlist, spotify_user_id)
+      create_artists(spotify_playlist_ids, @db_playlist, user_id)
     end
   end
 
-  def create_artists(spotify_playlist_ids, db_playlist, spotify_user_id)
+  def self.create_artists(spotify_playlist_ids, db_playlist, user_id)
     spotify_playlist_ids.each do |spotify_playlist_id|
-      playlist = RSpotify::Playlist.find(spotify_user_id, "#{spotify_playlist_id}") 
+      playlist = RSpotify::Playlist.find(user_id, "#{spotify_playlist_id}") 
       playlist.tracks.each do |track|
         track.artists.each do |artist|
           if Artist.find_by(name: artist.name).nil?
@@ -65,15 +62,6 @@ class User < ActiveRecord::Base
       end
     end
   end
-
-  def update_with_popularity_attributes
-    Artist.order("count DESC").limit(25).each do |artist|
-      artist_popularity = RSpotify::Artist.search("#{artist.name}").first.popularity
-      artist_size = artist_popularity * 6
-      artist.update(spotify_popularity: artist_popularity, size: artist_size)
-    end
-  end
-
 
   # GENRES!
   # def create_genres(artist_id, db_playlist_id)
@@ -103,5 +91,12 @@ class User < ActiveRecord::Base
     create(spotify_user_id: auth_hash.uid,
            name: auth_hash.info.name)
   end
+
+  #  WITH PASSWORD -- NEED TO ADD COLUMN TO USERS TABLE
+  # def self.create_from_omniauth(auth_hash)    
+  #   create(:spotify_user_id => auth_hash.uid,
+  #          :name => auth_hash.info.name, 
+  #          :password => SecureRandom.hex(10))
+  # end
 
 end
