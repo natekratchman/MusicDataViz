@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
     Playlist.destroy_all
     PlaylistArtist.destroy_all
 
-    # create_playlists(spotify_user_id)
+    create_playlists(spotify_user_id)
     update_with_popularity_attributes
   end
 
