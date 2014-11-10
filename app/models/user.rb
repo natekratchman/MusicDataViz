@@ -71,6 +71,12 @@ class User < ActiveRecord::Base
     end
   end
 
+  def popularity
+    Artist.order('count DESC').limit(10).collect do |artist|
+      artist.popularity
+    end
+  end
+
   # GENRES!
   # def create_genres(artist_id, db_playlist_id)
   #   artist = RSpotify::Artist.find("#{artist_id}")

@@ -4,6 +4,7 @@ class CreateArtists < ActiveRecord::Migration
       t.string :name
       t.integer :count
       t.integer :origin_artist_id
+      t.integer :popularity
 
       t.timestamps
     end
