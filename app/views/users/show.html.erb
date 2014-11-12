@@ -6,6 +6,6 @@
 
 <h1 class="big-text"><%= @user.name.split.first %>'s Music Profile</h1>
 
-<% Artist.order("count DESC").limit(50).each do |artist| %>
+<% @user.artists.order("count DESC").limit(50).each do |artist| %>
   <div class="circle" style="height:<%= artist.size %>px; width:<%= artist.size %>px;"><p class="circle-p"><%= artist.name %></p></div>
 <% end %>
