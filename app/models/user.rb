@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
 
 
   def call(spotify_user_id)
-    # create_playlists(spotify_user_id)
+    create_playlists(spotify_user_id)
     update_with_popularity_attributes
   end
 
@@ -60,9 +60,12 @@ class User < ActiveRecord::Base
 
   def update_with_popularity_attributes
     self.artists.order("count DESC").limit(50).each do |artist|
-      artist_popularity = RSpotify::Artist.search("#{artist.name}").first.popularity
-      artist_size = artist_popularity * 6
-      artist.update(spotify_popularity: artist_popularity, size: artist_size)
+      artist_object = RSpotify::Artist.search("#{artist.name}")
+      if artist_object.size > 0
+        artist_popularity = artist_object.first.popularity
+        artist_size = artist_popularity * 6
+        artist.update(spotify_popularity: artist_popularity, size: artist_size)
+      end
     end
   end
 
