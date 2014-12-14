@@ -41,7 +41,7 @@ class User < ActiveRecord::Base
 
   def create_artists(spotify_playlist_ids, db_playlist, spotify_user_id)
     spotify_playlist_ids.each do |spotify_playlist_id|
-      playlist = RSpotify::Playlist.find(spotify_user_id, "#{spotify_playlist_id}") 
+      playlist = RSpotify::Playlist.find(spotify_user_id, "#{spotify_playlist_id}")
       playlist.tracks.each do |track|
         track.artists.each do |artist|
           if Artist.find_by(name: artist.name).nil?
